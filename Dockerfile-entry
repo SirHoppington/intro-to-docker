@@ -1,0 +1,17 @@
+FROM ubuntu:22.04
+
+# Install Python and pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+# Setup a working directory that container will run from
+WORKDIR /app
+
+# Copy over any required files from your host
+COPY requirements.txt .
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+# Install the requirements
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENTRYPOINT ["./entrypoint.sh"]
